@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Viewer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='tabs.css') }}">
+</head>
+<body>
+    <div id="sidebar">
+        <ul>
+            <li><a href="#original-content" id="original-link">Original Content</a></li>
+            <li><a href="#summarized-content" id="summary-link">Show the Summary</a></li>
+            <li><a href="#suggested-keywords" id="keywords-link">Suggested Keywords</a></li>
+            <li><a href="#chat" id="chat-link">Chat</a></li>
+            <li><a href="#pdf-content" id="pdf-link">PDF Content</a></li>
+        </ul>
+    </div>
+    
+    <div id="content">
+        <div id="original-content" class="tab-content">
+            <h2>Original Content</h2>
+            <p>{{ content }}</p>
+        </div>
+        
+        <div id="summarized-content" class="tab-content hidden">
+            <h2>Summarized Content</h2>
+            <p id="summary-text">{{ summarized }}</p>
+        </div>
+        
+        <div id="suggested-keywords" class="tab-content hidden">
+            <h2>Suggested Keywords</h2>
+            <ul class="keywords-list">
+                {% for keyword in key_words %}
+                <li class="keyword">{{ keyword }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div id="chat" class="tab-content hidden">
+            <h2>Chat</h2>
+            <form action="/chat" method="post">
+                <input type="text" name="question" placeholder="Enter your question">
+                <input type="hidden" name="content" value="{{ content }}">
+                <button type="submit">Ask</button>
+            </form>
+            {% if answer %}
+            <p>{{ answer }}</p>
+            {% endif %}
+        </div>
+
+        <div id="pdf-content" class="tab-content hidden">
+            <h2>PDF Content</h2>
+            <embed src="data:application/pdf;base64,{{ pdf_base64 }}" width="100%" height="600px" />
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll("#sidebar a").forEach(function(item) {
+            item.addEventListener("click", function(event) {
+                event.preventDefault();
+                var targetId = event.target.getAttribute("href").substring(1);
+                document.querySelectorAll(".tab-content").forEach(function(content) {
+                    if (content.id === targetId) {
+                        content.classList.remove("hidden");
+                    } else {
+                        content.classList.add("hidden");
+                    }
+                });
+            });
+        });
+
+        document.querySelectorAll(".keyword").forEach(function(item) {
+            item.addEventListener("click", function() {
+                var keyword = this.innerText;
+                var searchUrl = "https://www.google.com/search?q=" + encodeURIComponent(keyword);
+                window.open(searchUrl, "_blank");
+            });
+        });
+    </script>
+</body>
+</html>
