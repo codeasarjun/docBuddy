@@ -33,3 +33,8 @@ DocBuddy is a Flask-based web application that allows users to upload PDF files,
 - `pip` (Python package installer)
 
 ### Output
+
+<img src='https://github.com/codeasarjun/docBuddy/blob/main/img/home_page.png'>
+<img src='https://github.com/codeasarjun/docBuddy/blob/main/img/landing_page.png'>
+<img src='https://github.com/codeasarjun/docBuddy/blob/main/img/summary.png'>
+<img src='https://github.com/codeasarjun/docBuddy/blob/main/img/keywords.png'>
