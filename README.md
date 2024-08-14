@@ -1,4 +1,3 @@
-# DocBuddy Flask App
 
 ## Overview
 
